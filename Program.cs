@@ -97,7 +97,6 @@ Uma cadeia de caracteres aleatória será gerada se o argumento de texto não fo
             return 1;
         }
 
-        Console.WriteLine();
         Console.ForegroundColor = ConsoleColor.DarkGray;
         Console.WriteLine(input);
         Console.ResetColor();
