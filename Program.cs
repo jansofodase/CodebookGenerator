@@ -78,12 +78,12 @@ Uma cadeia de caracteres aleatória será gerada se o argumento de texto não fo
 
         char[] _chars = hidden.ToCharArray().Distinct().ToArray();
         string _input = new(input.Select(c => c.ToString().ToLower()[0]).ToArray());
-        if (!_chars.All(c => _input.Contains(c)))
+        if (!_chars.All(c => _input.Contains(c.ToString().ToLower()[0])))
         {
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("A mensagem possui caracteres que não estão no texto:");
 
-            char[] invalidChars = _chars.Where(c => !_input.Contains(c)).ToArray();
+            char[] invalidChars = _chars.Where(c => !_input.Contains(c.ToString().ToLower()[0])).ToArray();
             for (int i = 0; i < invalidChars.Length; i++)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
@@ -108,7 +108,7 @@ Uma cadeia de caracteres aleatória será gerada se o argumento de texto não fo
         Random random_ = new(DateTime.Now.Millisecond);
         for (int i = 0; i < hidden.Length; i++)
         {
-            int[] positions = _input.Select((c, i_) => c == hidden[i] ? i_ : -1).Where(i_ => i_ != -1).ToArray();
+            int[] positions = _input.Select((c, i_) => c == hidden.ToLower()[i] ? i_ : -1).Where(i_ => i_ != -1).ToArray();
             int position = positions[random_.Next(positions.Length)];
 
             StreamReader stream = new(new MemoryStream(Encoding.UTF8.GetBytes(_input)));
