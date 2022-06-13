@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 
 namespace CodebookGenerator;
 
@@ -77,12 +77,13 @@ Uma cadeia de caracteres aleatória será gerada se o argumento de texto não fo
         }
 
         char[] _chars = hidden.ToCharArray().Distinct().ToArray();
-        if (!_chars.All(c => input.Contains(c)))
+        string _input = new(input.Select(c => c.ToString().ToLower()[0]).ToArray());
+        if (!_chars.All(c => _input.Contains(c)))
         {
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("A mensagem possui caracteres que não estão no texto:");
 
-            char[] invalidChars = _chars.Where(c => !input.Contains(c)).ToArray();
+            char[] invalidChars = _chars.Where(c => !_input.Contains(c)).ToArray();
             for (int i = 0; i < invalidChars.Length; i++)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
@@ -107,11 +108,11 @@ Uma cadeia de caracteres aleatória será gerada se o argumento de texto não fo
         Random random_ = new(DateTime.Now.Millisecond);
         for (int i = 0; i < hidden.Length; i++)
         {
-            int[] positions = input.Select((c, i_) => c == hidden[i] ? i_ : -1).Where(i_ => i_ != -1).ToArray();
+            int[] positions = _input.Select((c, i_) => c == hidden[i] ? i_ : -1).Where(i_ => i_ != -1).ToArray();
             int position = positions[random_.Next(positions.Length)];
 
-            StreamReader stream = new(new MemoryStream(Encoding.UTF8.GetBytes(input)));
-            int line = input.Take(position).Count(c => c == '\n') + 1, lineChars = 0;
+            StreamReader stream = new(new MemoryStream(Encoding.UTF8.GetBytes(_input)));
+            int line = _input.Take(position).Count(c => c == '\n') + 1, lineChars = 0;
             for (int i_ = 0; i_ < line - 1; i_++) lineChars += stream.ReadLine() is string str ? str.Length + 1 : 0;
             stream.Close();
 
