@@ -1,6 +1,6 @@
 # CodebookGenerator
 
-Um gerador de codebook.
+Um gerador de codebooks.
 
 ```
 CodebookGenerator.exe <mensagem> [texto]
